@@ -1,3 +1,6 @@
+# This application is still under developmental stage
+___
+
 # 🧠 Smart Habit Tracker API (Spring Boot)
 
 A production-ready backend application built using **Spring Boot** that allows users to create habits, track daily progress, maintain streaks, and analyze performance.
