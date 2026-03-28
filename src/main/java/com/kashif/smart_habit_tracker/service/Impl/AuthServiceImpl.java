@@ -1,5 +1,6 @@
 package com.kashif.smart_habit_tracker.service.Impl;
 
+import com.kashif.smart_habit_tracker.dto.request.LoginRequest;
 import com.kashif.smart_habit_tracker.dto.request.RegisterRequest;
 import com.kashif.smart_habit_tracker.entity.User;
 import com.kashif.smart_habit_tracker.exception.UserAlreadyExistsException;
@@ -8,6 +9,9 @@ import com.kashif.smart_habit_tracker.repository.UserRepository;
 import com.kashif.smart_habit_tracker.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +23,8 @@ public class AuthServiceImpl implements AuthService {
     private final RegisterRequestToUser mapToUser;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
+    private final AuthenticationManager authManager;
+    private final JwtService jwtService;
 
     @Override
     @Transactional
@@ -36,6 +42,17 @@ public class AuthServiceImpl implements AuthService {
 
         //Saving user to db
         User user = mapToUser.registerRequestToUser(registerRequest);
+        user.setPassword(encoder.encode(user.getPassword()));
         return userRepository.save(user);
+    }
+
+    @Override
+    public String verifyLogin(LoginRequest loginRequest) {
+        Authentication authentication = authManager
+                .authenticate(new UsernamePasswordAuthenticationToken
+                        (loginRequest.getUserName(), loginRequest.getPassword()));
+        if (authentication.isAuthenticated())
+            return jwtService.generateToken(loginRequest.getUserName());
+        return "Wrong Credentials";
     }
 }
