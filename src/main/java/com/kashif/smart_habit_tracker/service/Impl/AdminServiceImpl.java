@@ -22,6 +22,7 @@ public class AdminServiceImpl implements AdminService {
         List<User> users = userRepository.findAll();
         List<UserResponse> responseList = new ArrayList<>();
         users.forEach(user -> responseList.add(UserMapper.userToUserResponse(user)));
+        System.out.println(responseList);
         return responseList;
     }
 }
