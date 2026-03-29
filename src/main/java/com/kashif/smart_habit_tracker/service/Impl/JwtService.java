@@ -1,7 +1,6 @@
 package com.kashif.smart_habit_tracker.service.Impl;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,6 @@ public class JwtService {
 
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
-
         return Jwts.builder()
                 .claims()
                 .add(claims)
@@ -44,7 +42,7 @@ public class JwtService {
     }
 
     private Key getKeys() {
-        byte[] key = Decoders.BASE64.decode(secretKey);
-        return Keys.hmacShaKeyFor(key);
+//        byte[] key = Decoders.BASE64.decode(secretKey);
+        return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 }

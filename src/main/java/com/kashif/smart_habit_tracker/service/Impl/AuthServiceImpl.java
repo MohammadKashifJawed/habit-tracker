@@ -4,7 +4,7 @@ import com.kashif.smart_habit_tracker.dto.request.LoginRequest;
 import com.kashif.smart_habit_tracker.dto.request.RegisterRequest;
 import com.kashif.smart_habit_tracker.entity.User;
 import com.kashif.smart_habit_tracker.exception.UserAlreadyExistsException;
-import com.kashif.smart_habit_tracker.mapper.RegisterRequestToUser;
+import com.kashif.smart_habit_tracker.mapper.UserMapper;
 import com.kashif.smart_habit_tracker.repository.UserRepository;
 import com.kashif.smart_habit_tracker.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private final RegisterRequestToUser mapToUser;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
     private final AuthenticationManager authManager;
@@ -41,7 +40,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         //Saving user to db
-        User user = mapToUser.registerRequestToUser(registerRequest);
+        User user = UserMapper.registerRequestToUser(registerRequest);
         user.setPassword(encoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
