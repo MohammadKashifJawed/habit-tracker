@@ -9,4 +9,5 @@ public interface AuthService {
     User registerUser(RegisterRequest registerRequest);
 
     String verifyLogin(LoginRequest loginRequest);
+
 }

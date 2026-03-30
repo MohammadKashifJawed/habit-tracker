@@ -54,4 +54,5 @@ public class AuthServiceImpl implements AuthService {
             return jwtService.generateToken(loginRequest.getUserName());
         return "Wrong Credentials";
     }
+
 }
