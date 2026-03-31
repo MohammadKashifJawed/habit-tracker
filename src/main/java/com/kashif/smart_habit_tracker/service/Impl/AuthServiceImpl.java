@@ -3,7 +3,7 @@ package com.kashif.smart_habit_tracker.service.Impl;
 import com.kashif.smart_habit_tracker.dto.request.LoginRequest;
 import com.kashif.smart_habit_tracker.dto.request.RegisterRequest;
 import com.kashif.smart_habit_tracker.entity.User;
-import com.kashif.smart_habit_tracker.exception.UserAlreadyExistsException;
+import com.kashif.smart_habit_tracker.exception.AlreadyExistsException;
 import com.kashif.smart_habit_tracker.mapper.UserMapper;
 import com.kashif.smart_habit_tracker.repository.UserRepository;
 import com.kashif.smart_habit_tracker.service.AuthService;
@@ -32,11 +32,11 @@ public class AuthServiceImpl implements AuthService {
         //Checking if provided user already exists
         User existingUserByName = userRepository.findByUsername(registerRequest.getUserName());
         if(existingUserByName != null){
-            throw new UserAlreadyExistsException("Username already exist", HttpStatus.CONFLICT);
+            throw new AlreadyExistsException("Username already exist", HttpStatus.CONFLICT);
         }
         User existingUserByEmail = userRepository.findByEmail(registerRequest.getEmail());
         if(existingUserByEmail != null){
-            throw new UserAlreadyExistsException("Email already exist", HttpStatus.CONFLICT);
+            throw new AlreadyExistsException("Email already exist", HttpStatus.CONFLICT);
         }
 
         //Saving user to db

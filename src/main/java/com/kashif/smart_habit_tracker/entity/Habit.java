@@ -38,8 +38,6 @@ public class Habit {
 
     private Integer goal;
 
-    private LocalDateTime reminderTime;
-
     @OneToMany(mappedBy = "habit", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HabitTracking> habitTrackingList;
 
