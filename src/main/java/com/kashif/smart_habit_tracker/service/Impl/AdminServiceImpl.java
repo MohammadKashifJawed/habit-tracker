@@ -6,6 +6,7 @@ import com.kashif.smart_habit_tracker.mapper.UserMapper;
 import com.kashif.smart_habit_tracker.repository.UserRepository;
 import com.kashif.smart_habit_tracker.service.AdminService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,7 +23,13 @@ public class AdminServiceImpl implements AdminService {
         List<User> users = userRepository.findAll();
         List<UserResponse> responseList = new ArrayList<>();
         users.forEach(user -> responseList.add(UserMapper.userToUserResponse(user)));
-        System.out.println(responseList);
         return responseList;
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with given id"));
+        userRepository.delete(user);
     }
 }

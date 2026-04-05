@@ -4,6 +4,7 @@ import com.kashif.smart_habit_tracker.dto.response.ApiResponse;
 import com.kashif.smart_habit_tracker.dto.response.UserResponse;
 import com.kashif.smart_habit_tracker.service.AdminService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,5 +25,10 @@ public class AdminController {
                 "Fetched all users",
                 adminService.getAllUsers()
         ));
+    }
+
+    public ResponseEntity<String> deleteUser(Long id){
+        adminService.deleteUser(id);
+        return new ResponseEntity<>("User deleted successfully", HttpStatus.NO_CONTENT);
     }
 }

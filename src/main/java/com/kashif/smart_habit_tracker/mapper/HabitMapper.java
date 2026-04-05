@@ -6,6 +6,8 @@ import com.kashif.smart_habit_tracker.entity.Habit;
 import com.kashif.smart_habit_tracker.entity.enums.Frequency;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HabitMapper {
 
@@ -25,5 +27,19 @@ public class HabitMapper {
                 .frequency(habit.getFrequency().toString())
                 .goal(habit.getGoal())
                 .build();
+    }
+
+    public static List<HabitResponse> habitListToHabitResponseList(List<Habit> habits){
+        List<HabitResponse> responses = new ArrayList<>();
+        for (Habit habit : habits){
+            HabitResponse response = HabitResponse.builder()
+                    .name(habit.getName())
+                    .description(habit.getDescription())
+                    .frequency(habit.getFrequency().toString())
+                    .goal(habit.getGoal())
+                    .build();
+            responses.add(response);
+        }
+        return responses;
     }
 }

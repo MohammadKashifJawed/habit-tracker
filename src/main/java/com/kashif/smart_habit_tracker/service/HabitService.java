@@ -6,6 +6,14 @@ import com.kashif.smart_habit_tracker.dto.response.HabitResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface HabitService {
     HabitResponse createHabit(@Valid HabitRequest request);
+
+    void deleteHabit(Long id);
+
+    HabitResponse getHabitById(Long id);
+
+    List<HabitResponse> getHabits();
 }

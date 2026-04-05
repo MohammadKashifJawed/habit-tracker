@@ -18,12 +18,11 @@ public class GlobalExceptionHandler {
             (AlreadyExistsException exception, HttpServletRequest request){
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
-                exception.getStatus().value(),
                 exception.getStatus().getReasonPhrase(),
                 exception.getMessage(),
                 request.getRequestURI()
         );
-        return new ResponseEntity<>(error, exception.getStatus());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
@@ -32,8 +31,19 @@ public class GlobalExceptionHandler {
 
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
-                HttpStatus.NOT_FOUND.value(),
                 exception.getName(),
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException
+            (ResourceNotFoundException exception, HttpServletRequest request){
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                exception.getLocalizedMessage(),
                 exception.getMessage(),
                 request.getRequestURI()
         );
